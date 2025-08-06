@@ -124,3 +124,120 @@ Similarly  undefined convert hota hai NaN mein to sabhi conditions false hongi
 ## lekin undefined==null ( this is true)
 
 -> strict checks
+
+
+# Lession 7 ( Datatypes Summary)
+
+->  Two Data Type Categories in JavaScript
+JavaScript data types are categorized into 2 types based on how they are stored and accessed in memory:
+
+Primitive (Call by Value)
+
+Non-Primitive (Call by Reference)
+
+-> Primitive Data Types (7 Types)
+Stored directly in memory (copied when assigned).
+
+Types: Number, String, Boolean, Null, Undefined, Symbol, BigInt.
+
+Example Quirk:
+
+javascript
+const id1 = Symbol('123');
+const id2 = Symbol('123');
+console.log(id1 === id2); // false (unique symbols)
+->  Non-Primitive Data Types (Reference Types)
+Stored as references (changes affect all copies).
+
+Types: Array, Object, Function, Date, RegExp.
+
+-> JavaScript is Dynamically Typed
+Types are checked at runtime (not compile time).
+
+Variables can change types freely:
+
+javascript
+let x = 10;      // number  
+x = "hello";     // string  
+x = true;        // boolean  
+-> Static Typing via TypeScript
+TypeScript adds static typing (compile-time checks) to JavaScript.
+
+Example:
+
+typescript
+let y: number = 10;  
+y = "hello"; // Error (TypeScript prevents this).  
+Key Takeaway:
+
+Primitive = Copy | Non-Primitive = Reference.
+
+JS flexibility = Dynamic Typing.
+
+TypeScript = Optional Static Typing.
+
+-> Return type of variables in JavaScript
+
+1) Primitive Datatypes
+       Number => number
+       String  => string
+       Boolean  => boolean
+       null  => object
+       undefined  =>  undefined
+       Symbol  =>  symbol
+       BigInt  =>  bigint
+
+2) Non-primitive Datatypes
+       Arrays  =>  object
+       Function  =>  function
+       Object  =>  object
+
+# Lession 8 ( Stack and Heap Memory )
+
+-> Stack hold primitive data types 
+-> Heap non primitive ( reference copy hota hai ek varibale change karoge to doosra bhi change hoga)
+
+-> Ek note 
+    Stack mein wo variable to jaega lets say object wala bas value ki jagah reference ko point karega example ni samjhe to (memory wala dekh lo)
+
+    ![stack and heap](image.png)
+
+# Lession 9 ( Strings )
+
+-> String interpolation allows embedding variables/expressions directly into strings using template literals (enclosed in backticks `).
+-> substring cant be used for negative indices use slice instead
+-> All methods return a new string (original remains unchanged). ( Immutability )
+
+# Lession 10 ( Nums and Maths )
+
+-> Normal Functions 
+
+# Lession 11 ( Date and Time )
+
+-> Basic date and time functions
+
+# Lession 12 ( Arrays )
+
+-> All built-in array-copy operations (spread syntax, Array.from(), Array.prototype.slice(), and Array.prototype.concat()) create shallow copies. If you instead want a deep copy of an array, you can use JSON.stringify() to convert the array to a JSON string, and then JSON.parse() to convert the string back into a new array that's completely independent from the original array.
+
+-> Shallow means reference same hoga agar ek mein change kiya to doosra bhi change ho jaega
+-> Deep copy mein alag alag reference hai to standalone array banega doosra
+
+-> slice vs splice (splice alters the ori array while slice doesn't)
+
+-> shift aur unshift ( naam ke viprit kaam karte (shift removes from beginning,unshift adds))
+
+# Lession 13 ( Arrays 2)
+
+-> Add one array to other
+  -> use simple push and then flat(depth) kitne depth tak jana hai see example ( default 1)
+  -> use concat ( can only add one array to another )
+  -> (Best way) use spread operator 
+-> Making array from iterables
+  -> use Array.from() ( An iterable (like String, Array, Map, Set )
+  -> use Array.of()  ( set of values )
+-> if you want to have objects in the array
+  -> then either you can get keys Array.from(Object.key(obj))
+  -> or you can get values Array.from(Object.values(obj))
+  -> one more thing it will place the [key,value] pair as an array in the other array see example
+  Array.from(Object.entries(obj))
