@@ -9,7 +9,7 @@ const myObj={
         }
     },
     greet: function(){
-        console.log(this.name);
+        console.log(this.name );
     }
 }
 

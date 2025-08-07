@@ -292,7 +292,7 @@ Use Case	    Legacy code	    Mutable variables	Constants
 # Lession 18 ( Arrow and This )
 
 -> Browser mein log(this)  will return window Object which is the Global Object ( which acts as a container for all the variable declared globally )
--> in node environment {}
+-> in node environment {} 
 -> this points to the current context ( obect mein this.key access kar sakte ho lekin this.var_name in function undefined degaa )
 -> Why do we use this in normal functions and not in arrow function? ( dekha tha maine to function mein bahut kuch a rha tha , arrow mein ni aya sirf {} aya ( wo is liye kyun uska immediate parents scope was global scope ( node mein tha isliye {} aya browser mein hota to window ata)))
 

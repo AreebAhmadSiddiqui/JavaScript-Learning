@@ -62,7 +62,7 @@ console.log(JsUser);
 
 JsUser.email='hello@hello.com' // see no error would be shown its just that it wont change
 
-console.log(JsUser);
+console.log(JsUser );
 
 
 // ADDING FUNCTION
