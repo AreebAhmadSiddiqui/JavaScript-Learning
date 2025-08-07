@@ -241,3 +241,68 @@ TypeScript = Optional Static Typing.
   -> or you can get values Array.from(Object.values(obj))
   -> one more thing it will place the [key,value] pair as an array in the other array see example
   Array.from(Object.entries(obj))
+
+
+  # Lession 14 ( Objects 1)
+
+  -> Two ways we can create object ( using constructor ( singleton object would be created) and literal)
+  -> can access keys using . or ['key_name']
+  -> to use symbol as a key create a symbol using Symbol() and its key would be under [mySymbol] and to access it object_name[mySymbol]
+
+  ->if you want to freeze changes  Object.freeze(JsUser)
+
+  -> If a function is there in any object you can use this keyword to access all the other fields of objects
+
+  # Lession 15 ( Objects 2 )
+
+  -> Merge objects easily using spread operator
+  -> U can also use Object.assign wo ni padha maine
+  -> Get array of keys using Object.keys(object_name)
+  -> get aray of values using Object.values(object_name)
+  -> get array of key value pair Object.entries(object_name)
+
+  -> if you want to check if certain property is there in the object or not use object_name.hasOwnProperty('key')
+
+  -> object destructuring {x,y,z,..}=object_name
+  where (x,y,z,.. are the properties of object)
+
+  # Lession 16 ( Functions )
+
+  -> functionname is the reference
+  -> functionname() is the function call
+  -> function hello(x,y)   hello(a,b)  {x,y => parameters and a,b => arguments}
+  -> agar parameter main value dal diya hai explicitly to wo le elga jaise hello(name='areeb') agar ni paas karte kuch to areeb le lega
+  -> function ke andar function return bhi kar sakte ho
+  -> use ... ( rest operator ) when not sure about the number of parameters
+  # Lession 17 ( Scopes )
+
+  Feature
+              var	            let	             const
+Scope	        Function	      Block	           Block
+Hoisting	    Yes (undefined)	Yes (TDZ)	       Yes (TDZ)
+Reassignment	✅ Yes	        ✅ Yes	          ❌ No
+Redeclaration	✅ Yes	        ❌ No	          ❌ No
+Use Case	    Legacy code	    Mutable variables	Constants
+
+
+-> Basic functional scopes 
+-> Hoisting intro ( Can access functions before initialization but not variable)
+
+
+# Lession 18 ( Arrow and This )
+
+-> Browser mein log(this)  will return window Object which is the Global Object ( which acts as a container for all the variable declared globally )
+-> in node environment {}
+-> this points to the current context ( obect mein this.key access kar sakte ho lekin this.var_name in function undefined degaa )
+-> Why do we use this in normal functions and not in arrow function? ( dekha tha maine to function mein bahut kuch a rha tha , arrow mein ni aya sirf {} aya ( wo is liye kyun uska immediate parents scope was global scope ( node mein tha isliye {} aya browser mein hota to window ata)))
+
+Simple answer hai normal mein they have their own binding is liye usmein ata hai wo sab data, lekin arrow func mein khud ki koi binding ni hoti hai isliye wo this keyword immediate parent ke scope ko refer karta hai ....
+
+Learn more
+
+The this keyword behaves differently in normal functions compared to arrow functions. Normal functions have their own this binding, which is determined by how the function is called (e.g., as a method, via new, call, apply, or bind).
+ This allows the this value to be dynamically set based on the context of the call.
+
+In contrast, arrow functions do not have their own this binding.
+ Instead, they inherit the this value from the enclosing (lexical) scope where they are defined.
+ This means that this inside an arrow function refers to the this value of the nearest non-arrow parent function or the global object if no such parent exists.
