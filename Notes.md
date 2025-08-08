@@ -284,10 +284,60 @@ Reassignment	✅ Yes	        ✅ Yes	          ❌ No
 Redeclaration	✅ Yes	        ❌ No	          ❌ No
 Use Case	    Legacy code	    Mutable variables	Constants
 
+-> Ek important note var function scoped hai iska agar wo kisi function ke andar hai tab to bahar access ni hoga lekin agar kisi aur cheez ke andar jaise loops , {} tab accessible hoga
 
 -> Basic functional scopes 
 -> Hoisting intro ( Can access functions before initialization but not variable)
 
+var is Function-Scoped (not Block-Scoped)
+
+Variables declared with var are only scoped to functions, not to blocks ({}, if, for, while, etc.).
+
+If var is inside a function, it cannot be accessed outside.
+
+If var is inside a block (but not a function), it can be accessed outside.
+
+Examples:
+
+✅ Case 1: var Inside a Function (Not Accessible Outside)
+javascript
+function test() {
+    var x = 10; // Function-scoped
+    console.log(x); // 10 (works inside)
+}
+test();
+console.log(x); // ReferenceError: x is not defined (cannot access outside)
+✔️ Correct: var is trapped inside the function.
+
+❌ Case 2: var Inside a Block (Accessible Outside)
+javascript
+if (true) {
+    var y = 20; // Not block-scoped (leaks outside)
+    console.log(y); // 20 (works inside)
+}
+console.log(y); // 20 (still accessible outside!)
+⚠️ Problem: var ignores block scope ({}, if, for, etc.) and leaks outside.
+
+❌ Case 3: var in a Loop (Leaks Outside)
+javascript
+for (var i = 0; i < 3; i++) {
+    console.log(i); // 0, 1, 2
+}
+console.log(i); // 3 (still accessible outside the loop!)
+⚠️ Problem: i leaks outside the loop (unlike let/const).
+
+Block Scope (let, const)
+Variables declared with let/const are block-scoped.
+
+They are only accessible inside the block ({}) where they are declared.
+
+They do NOT leak outside blocks (if, for, while).
+
+
+Simple sa ye yaad rakho 
+
+-> let and const are block scoped ({}) iske andar hi accessible hai
+-> var is function scoped ( agar sirf function mein hoga to not accessible ousidee) otherwise sabmein hoga
 
 # Lession 18 ( Arrow and This )
 
@@ -306,3 +356,72 @@ The this keyword behaves differently in normal functions compared to arrow funct
 In contrast, arrow functions do not have their own this binding.
  Instead, they inherit the this value from the enclosing (lexical) scope where they are defined.
  This means that this inside an arrow function refers to the this value of the nearest non-arrow parent function or the global object if no such parent exists.
+
+ # Lession 19 ( IIFE )
+
+->In JavaScript, when you declare variables or functions without any protection, they automatically become part of the global scope (usually the window object in browsers). This leads to global namespace pollution, which can cause:
+->Naming Collisions – If two scripts use the same variable name, they overwrite each other.
+->Memory Leaks – Unused variables stay in memory because they’re globally accessible.
+->Unpredictable Bugs – Other scripts can accidentally modify your variables.
+
+How IIFE Solves This?
+-> An IIFE creates a private scope where variables are confined inside the function and disappear after execution.
+
+// standard IIFE
+(function () {
+  // statements…
+})();
+
+// arrow function variant
+(() => {
+  // statements…
+})();
+
+// async IIFE
+(async () => {
+  // statements…
+})();
+
+-> Named IIFE ( functional one) and Normal IIFE arrow function
+-> We can use multiple iife just remember to add semi colon ( that can be anywhere before the start of the other function) 
+-> In our code example I have taken one after the other ( lekin man lo doosra wala hazaar line ke baad hota lekin agar kahin bhi ; a jega to cancel ho jaega wo lekin hn dhyan rakhna ki semicolon turant laga do call hone ke just baad ()(); )
+
+
+# Lession 20 ( Execution Context and Call Stack)
+
+## Everything in JS happens inside an execution context
+
+## JavaScript is synchronous single threaded language
+
+->An Execution Context is the environment where JavaScript code runs, consisting of:
+
+Variable Environment (hoisting, scope).
+
+Scope Chain (access to outer variables).
+
+this Binding (context-dependent).
+
+It is created in two phases (Memory Allocation → Execution) and managed via the Call Stack.
+
+-> For In depth look at the code
+
+
+# Lession 21 ( Control Flow )
+
+-> If you dont add break it will execute all the staments below it till it finds next break it can even execute default
+
+-> So, inside a switch statement, once a case statement matches the given variable, all following statements will be executed ignoring the criteria until a break statement or closing curly bracket is encountered
+
+-> default can be placed anywhere
+
+-> Truthy values and Falsy Values
+
+-> Learn falsy values 
+
+false, 0 ,-0,BigInt 0n,"",null,undefined,NaN
+
+-> Nullish Coalescing Operator (??)
+
+-> // || drops falsy value
+
+

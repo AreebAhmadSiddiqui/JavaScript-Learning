@@ -22,6 +22,15 @@
 // Inner functions ke liye uske upar wala function global hai ( Obviousslllyyy )
 
 
+// See this will throw reference error
+
+function helloFun(){
+    var helloVar='Hello'
+    console.log(hello);
+}
+
+console.log(helloVar); // hello not defined lekin agar function ko hatake if ya fir {} likh diya to accessible
+
 function one(){
     const oneVal='one'
     function two(){
