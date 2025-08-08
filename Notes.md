@@ -422,6 +422,6 @@ false, 0 ,-0,BigInt 0n,"",null,undefined,NaN
 
 -> Nullish Coalescing Operator (??)
 
--> // || drops falsy value
+-> // || drops falsy value ( Ex - cnst val = 0 || 2 -> val takes 2)
 
 
