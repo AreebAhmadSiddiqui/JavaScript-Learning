@@ -495,11 +495,36 @@ Comment	<!-- comment -->	HTML comments.
 
 3. HTML Collection , Object Collection array ni hai lekin array jaise hai
 
-
 -> setAttribute hamesha override karega
-
 
 -> HTMLCollection and NodeList
 
 -> HTMLCollection mein forEach bhi ni hai to convert to array Array.from(source) and then use , ismein bhi map ni hai
+
 -> NodeList mein we dont have map but we have forEach
+
+
+two.html()
+
+-> parent and child relation ( also sibling ones)
+
+-> Important childNodes thing
+
+three.html()
+
+-> createTextNode('Text')
+
+
+four.html()
+
+for text remeber use dom.createTextNode(text) ( dont use innerHTML,textContent and all)
+
+
+-> how to edit? ( use replaceWith)
+-> also u can hardocre using outerHTML
+
+for delete
+
+select the tag to be deleted
+
+tag.remove()

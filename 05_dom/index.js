@@ -79,3 +79,4 @@ const arr=Array.from(myHTMLList)
 console.log(arr);
 
 arr.forEach((l)=> l.style.color='green')
+

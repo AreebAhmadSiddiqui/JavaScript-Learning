@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Part two</title>
+    <style>
+        body{
+            background-color: #212121;
+            color: white;
+        }
+        /* .parent{
+            font-size: 100px;
+        } */
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="day">Monday</div>
+        <div class="day">Tuesday</div>
+        <div class="day">Wednesday</div>
+        <div class="day">Thursday</div>
+    </div>
+</body>
+<script>
+
+    // Parent Children
+    const parent=document.querySelector('.parent')
+    // console.log(parent);
+    // console.log(parent.children);
+    // console.log(parent.children[0].innerHTML);
+    
+    for (let index = 0; index < parent.children.length; index++) {
+        // console.log(parent.children[index].innerHTML);
+    }
+
+    // How to select first child and last child
+
+    console.log(parent.firstElementChild.innerHTML);
+    console.log(parent.lastElementChild.innerHTML);
+    
+
+    // How to get to parent if you have a child
+
+    const child=document.querySelector('.day') //get the first child
+    console.log(child.parentElement); //div parent
+    
+    // how to get sibling
+    console.log(child.nextElementSibling);
+
+
+    // Most Important thing childNodes
+
+    console.log('Nodes: ',parent.childNodes);
+    
+    // prints something like
+    // NodeList(9) [text, div.day, text, div.day, text, div.day, text, div.day, text]
+
+    // why 9 there should be 4 child?
+    // line break ko text man raha hai ye
+
+    // parent ke baad line break ( text )
+    // fir day one
+    // fir line break 
+    // fir day two ...
+
+    
+</script>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Edit and Remove</title>
+    <style>
+        body{
+            background-color: #212121;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+    <script>
+        const arr=['JavaScript','Java','React','C++','MongoDB']
+
+        function addLi(liText){
+            const liItem=document.createElement('li')
+            // liItem.textContent=liText
+            // iske jagah we can use ( Optimized ) way
+            liItem.appendChild(document.createTextNode(liText))
+            return liItem
+        }
+        
+        const ul=document.createElement('ul')
+        ul.setAttribute('class','ul-item')
+        arr.forEach((val)=>{
+            ul.appendChild(addLi(val))
+        })
+        
+        document.body.appendChild(ul)
+
+
+        // Edit
+        //  1) Get the vlaue to changed
+        //  2) Create new value
+        //  3) Replace old value
+
+        // 1)
+        const secondStack=document.querySelector('li:nth-child(2)')
+
+        console.log(secondStack); //java
+        
+        // 2)
+        const newLi=document.createElement('li')
+        newLi.appendChild(document.createTextNode('New Tech Stack'))
+
+        // 3)
+        secondStack.replaceWith(newLi)
+
+
+        // one more edit
+
+        const firstStack=document.querySelector('li:first-child')
+        firstStack.outerHTML='<li>New First Tech Stack</li>'
+
+
+        // Remove
+
+        // lets remove the last child
+        const removeChild=document.querySelector('li:last-child')
+        removeChild.remove() //removes mongo db
+    </script>
+</html>

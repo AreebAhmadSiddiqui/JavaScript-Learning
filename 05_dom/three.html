@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>How to Create Elements</title>
+     <style>
+        body{
+            background-color: #212121;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+<script>
+    const newDiv=document.createElement('div')
+    console.log(newDiv);
+    newDiv.setAttribute('class','test') // jo jo attributes hai wo set kar sakte lekin main to textContent add kar rha tha wo ni ho sakta 
+    // or
+    newDiv.id='test-id'
+    newDiv.style.backgroundColor='green'
+    newDiv.style.padding='12px'
+    // two ways you can add text
+    // newDiv.textContent='Hello I am a new Div' // but ye pehele jata hai iska reference leke ata hai fir update karta hai (1 round trip)
+    
+    // doosra way
+    const getTextNode=document.createTextNode('Hello I am a new Div')
+    newDiv.appendChild(getTextNode)
+
+    document.body.appendChild(newDiv)
+</script>
+</html>
