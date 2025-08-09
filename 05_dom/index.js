@@ -54,7 +54,7 @@ console.log(document.querySelector('#title'))
 // Let change the color of the first li
 
 const myUl=document.querySelector('ul') //first ul
-const myLi=myUl.querySelector('li')
+const myLi=myUl.querySelector('li') // first li
 
 myLi.style.backgroundColor='green'
 
