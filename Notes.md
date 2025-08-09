@@ -425,3 +425,81 @@ false, 0 ,-0,BigInt 0n,"",null,undefined,NaN
 -> // || drops falsy value ( Ex - cnst val = 0 || 2 -> val takes 2)
 
 
+# Lession 22 ( Loops )
+
+-> for, while and do while ( runs atleast once before checking the conditions)
+
+-> for objects we can use for in and for maps use for of ( for of mein o ata hai yaad rakho no for objects )
+
+for	        for (let i = 0; i < 5; i++)	  Fixed iterations (arrays, strings)
+while	      while (condition)	            Looping until a condition is false
+do...while	do { ... } while (condition)	Executes at least once before checking condition
+for...in	  for (let key in object)	      Enumerating object properties (not recommended for arrays)
+for...of	  for (let value of iterable)	  Iterating over iterables (arrays, strings, maps, sets, etc.) ( not in objects )
+forEach()	  array.forEach((item) => {})	  Iterating over arrays (does not work on objects)
+
+
+-> forEach Loop
+
+-> they want a callback function (it doesn't have a name)
+-> doesn't return anything
+-> you can create a function outside and give it to it ( but use reference only dont add () after it in loop) arr.forEach(handleFunc) ( see example if not clear)
+
+-> forEach has got multiple parameters some of them are
+-> we have forEach((val,index,ori_array)) // names might change but the position of these params remains the same
+
+# Lession 23 ( filter map reduce )
+
+-> forEach doesn't return any value ( neither by its function nor will return explicitly )
+
+![alt text](distinction-array-func.png)
+
+-> filter , map , reduce in detail
+
+# Lession 24 ( DOM )
+
+-> DOM ( or Dcoument Object Model) represents the structure of the HTML/XML document as a tree of objects, allowing JavaScript to dynamically manipulate content, structure, and styles.
+
+-> Tree-like structure where each HTML element is a node.
+
+JavaScript can interact with the DOM to:
+
+Change content (innerHTML, textContent).
+
+Modify styles (style, classList).
+
+Add/remove elements (appendChild, remove).
+
+Handle events (click, keypress).
+
+jaise ki one.html mein we have html as parent node
+                     window
+
+                     document
+
+                      html
+                head            body
+attribute    <- meta   title    div -> attribute(classname etc)
+                   text      p      div
+                            text    text
+
+
+2. DOM Node Types
+Node Type	Example	Description
+Element	<div>, <p>	HTML tags.
+Text	"Hello World" (inside <p>)	Text content.
+Attribute	class="header"	Attributes of elements.
+Document	document	Root node.
+Comment	<!-- comment -->	HTML comments.
+
+
+3. HTML Collection , Object Collection array ni hai lekin array jaise hai
+
+
+-> setAttribute hamesha override karega
+
+
+-> HTMLCollection and NodeList
+
+-> HTMLCollection mein forEach bhi ni hai to convert to array Array.from(source) and then use , ismein bhi map ni hai
+-> NodeList mein we dont have map but we have forEach
