@@ -211,6 +211,8 @@ TypeScript = Optional Static Typing.
 # Lession 10 ( Nums and Maths )
 
 -> Normal Functions 
+-> parseFloat(string)
+-> parseInt(string)
 
 # Lession 11 ( Date and Time )
 
