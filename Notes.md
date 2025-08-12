@@ -530,3 +530,362 @@ for delete
 select the tag to be deleted
 
 tag.remove()
+
+
+# Lession 25 ( Events )
+
+Events are actions or occurrences that happen in the browser that JavaScript can respond to. They're a fundamental part of interactive web applications, allowing your code to react to user actions, browser activities, and other triggers.
+
+Common Types of Events
+Mouse Events
+click - When an element is clicked
+
+dblclick - Double click
+
+mouseenter - Mouse pointer enters an element
+
+mouseleave - Mouse pointer leaves an element
+
+mousemove - Mouse moves over an element
+
+mousedown - Mouse button is pressed down
+
+mouseup - Mouse button is released
+
+Keyboard Events
+keydown - A key is pressed down
+
+keyup - A key is released
+
+keypress - A key is pressed (deprecated)
+
+Form Events
+submit - When a form is submitted
+
+change - When an input element's value changes
+
+focus - When an element gets focus
+
+blur - When an element loses focus
+
+input - When an input element's value changes (fires immediately)
+
+Window/Document Events
+load - When the page has finished loading
+
+DOMContentLoaded - When the DOM is fully loaded (no need to wait for stylesheets, images)
+
+resize - When the browser window is resized
+
+scroll - When the user scrolls
+
+Event Handling Methods
+1. HTML Attribute
+html
+<button onclick="alert('Clicked!')">Click me</button>
+2. DOM Property
+javascript
+const btn = document.querySelector('button');
+btn.onclick = function() {
+  alert('Clicked!');
+};
+3. addEventListener() (Recommended)
+javascript
+const btn = document.querySelector('button');
+btn.addEventListener('click', function() {
+  alert('Clicked!');
+});
+Event Object
+When an event occurs, the browser creates an event object containing information about the event, which is passed to the event handler:
+
+javascript
+element.addEventListener('click', function(event) {
+  console.log(event.type); // "click"
+  console.log(event.target); // The element that was clicked
+});
+
+
+-> why no second approach
+
+a) Only one handler allowed in onclick while multiple handlers you can write those will execute at the same time
+
+// Using onclick (BAD)
+button.onclick = function() { console.log('First'); };
+button.onclick = function() { console.log('Second'); }; // Overwrites the first!
+
+// Using addEventListener (GOOD)
+button.addEventListener('click', () => console.log('First'));
+button.addEventListener('click', () => console.log('Second')); // Both run!
+
+
+b) No control over Event Phase( Bubbling or capturing phase)
+c) Sometimes event object is not passed to the handler function unless explicitly given
+
+document.querySelector('.classname').addEventListener('event',function(){},false) // this last false is default so whether u write it or not not no effect
+
+-> false is for bubbling phase ( child-to-parent) ( bubble analogy)
+-> true is for capturing phase ( par-to-chil)
+
+-> function ka agar naam ni hai to that function ko remove ni kar paoge
+-> Hamesha dhyan dena ki sirf reference likho, () add na karna end mein warna turant invoke ho jaega or undefined store ho jaega event listerner mein
+
+1. Event Basics (type, timestamp, preventDefault())
+type (String)
+Returns the name of the event (e.g., "click", "keydown").
+
+javascript
+button.addEventListener("click", (e) => {
+  console.log(e.type); // "click"
+});
+timestamp (Number)
+Returns the time (in milliseconds) when the event occurred (relative to page load).
+
+javascript
+document.addEventListener("mousemove", (e) => {
+  console.log(e.timeStamp); // e.g., 1234.56
+});
+preventDefault() (Method)
+Stops the default browser behavior (e.g., preventing a form submission or link navigation).
+
+javascript
+link.addEventListener("click", (e) => {
+  e.preventDefault(); // Stops the link from navigating
+});
+2. Event Target Properties (target, toElement, srcElement)
+target (Element)
+The element that triggered the event (deepest in the DOM).
+
+javascript
+document.addEventListener("click", (e) => {
+  console.log(e.target); // <button>Click</button>
+});
+currentTarget (Element)
+The element the listener is attached to (useful in event delegation).
+
+javascript
+parent.addEventListener("click", (e) => {
+  console.log(e.currentTarget); // Always <div id="parent">
+});
+toElement & srcElement (Legacy)
+Deprecated versions of target (used in old IE).
+
+Modern code should use target instead.
+
+3. Mouse/Touch Position Properties
+clientX, clientY (Number)
+Coordinates relative to the viewport (window).
+
+javascript
+document.addEventListener("mousemove", (e) => {
+  console.log(`X: ${e.clientX}, Y: ${e.clientY}`);
+});
+screenX, screenY (Number)
+Coordinates relative to the entire screen (includes scroll and OS toolbars).
+
+javascript
+document.addEventListener("click", (e) => {
+  console.log(`Screen X: ${e.screenX}, Screen Y: ${e.screenY}`);
+});
+pageX, pageY (Number)
+Coordinates relative to the full page (accounts for scrolling).
+
+javascript
+document.addEventListener("click", (e) => {
+  console.log(`Page X: ${e.pageX}, Page Y: ${e.pageY}`);
+});
+offsetX, offsetY (Number)
+Coordinates relative to the target element's border.
+
+javascript
+button.addEventListener("click", (e) => {
+  console.log(`Inside button: X=${e.offsetX}, Y=${e.offsetY}`);
+});
+4. Keyboard/Modifier Key Properties
+altKey, ctrlKey, shiftKey, metaKey (Boolean)
+Returns true if the key was pressed during the event.
+
+javascript
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "s") {
+    e.preventDefault(); // Block Ctrl+S save
+  }
+});
+keyCode (Deprecated)
+Legacy property for keyboard key codes (avoid; use key or code instead).
+
+javascript
+document.addEventListener("keydown", (e) => {
+  console.log(e.key); // "Enter", "a", "ArrowUp" (modern)
+  console.log(e.code); // "KeyA", "Space" (physical key position)
+});
+Modern Replacements:
+Legacy	Modern Equivalent
+e.keyCode	e.key or e.code
+e.which	e.key
+5. Practical Example
+javascript
+document.addEventListener("click", (e) => {
+  console.log("Event type:", e.type);
+  console.log("Target element:", e.target);
+  console.log("Mouse position (viewport):", e.clientX, e.clientY);
+  
+  if (e.ctrlKey) {
+    console.log("Ctrl was held during click!");
+  }
+});
+
+-> EVENTS PROPAGATION ( Please look into the code v.v.v.imp)
+
+Main ek table bana raha hun thik ki kab kaunsa true hai 
+            1  2  3  4  5  6 7  8
+Child       T  T  T  T  F  F F  F
+parent      T  T  F  F  T  T F  F
+grandparent T  F  T  F  T  F T  F
+
+1 -> g p c
+2 -> p c g
+3 -> g c p
+4 -> c p g
+5 -> g p c
+6 -> p c g
+7 -> g c p
+8 -> c p g
+
+
+### ALGO
+
+### pehle upar se neeche aega check karta hua ki kis kis mein T hai agar tru hai to wo event chal jaega agar ni hai to phase 1 mein kuch ni hoga
+
+### -> phase 2 mein neeche se upar jaega ye check karta hu ki false kitne mien hai
+
+
+
+
+->
+
+
+Event Propagation in JavaScript: A Deep Dive
+Event propagation describes how events travel through the DOM tree. Understanding it is crucial for proper event handling. There are three phases in event propagation:
+
+1. The Three Phases of Event Propagation
+(1) Capturing Phase (Top-Down)
+Event travels from the window down to the target element.
+
+Rarely used, but useful for intercepting events early.
+
+To listen in this phase, set capture: true in addEventListener.
+
+(2) Target Phase
+Event reaches the actual target element that triggered it.
+
+(3) Bubbling Phase (Bottom-Up)
+Event bubbles back up from the target to the window.
+
+Default behavior for most event listeners.
+
+html
+<div id="grandparent">
+  <div id="parent">
+    <button id="child">Click Me</button>
+  </div>
+</div>
+javascript
+const elements = ["grandparent", "parent", "child"];
+
+elements.forEach(id => {
+  document.getElementById(id).addEventListener("click", () => {
+    console.log(`Capturing: ${id}`);
+  }, true); // Capturing phase
+
+  document.getElementById(id).addEventListener("click", () => {
+    console.log(`Bubbling: ${id}`);
+  }, false); // Bubbling phase (default)
+});
+Output when clicking the button:
+
+text
+Capturing: grandparent  
+Capturing: parent  
+Capturing: child  
+Bubbling: child  
+Bubbling: parent  
+Bubbling: grandparent  
+2. Controlling Propagation
+event.stopPropagation()
+Stops the event from moving further in both capturing and bubbling phases.
+
+Example: Prevent parent elements from receiving the event.
+
+javascript
+child.addEventListener("click", (e) => {
+  e.stopPropagation(); // Stops at target phase
+  console.log("Child clicked (propagation stopped)");
+});
+event.stopImmediatePropagation()
+Stops all remaining listeners (even on the same element).
+
+javascript
+child.addEventListener("click", (e) => {
+  e.stopImmediatePropagation(); // Blocks other listeners
+  console.log("First listener (blocks others)");
+});
+
+child.addEventListener("click", () => {
+  console.log("This won't run!");
+});
+event.preventDefault() vs stopPropagation()
+Method	Purpose
+preventDefault()	Stops default browser behavior (e.g., form submission).
+stopPropagation()	Stops event bubbling/capturing (but default action still happens).
+3. Event Delegation (Bubbling in Practice)
+Instead of attaching listeners to every child, use bubbling to listen on a parent:
+
+html
+<ul id="list">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+javascript
+document.getElementById("list").addEventListener("click", (e) => {
+  if (e.target.tagName === "LI") {
+    console.log(`Clicked: ${e.target.textContent}`);
+  }
+});
+✅ Benefits:
+✔ Works for dynamically added elements.
+✔ Uses less memory (single listener instead of many).
+
+4. When to Use Capturing vs Bubbling
+Phase	Use Case
+Capturing (true)	Intercept events before they reach the target (e.g., analytics tracking).
+Bubbling (false)	Default for most cases (e.g., handling button clicks).
+5. Summary Table
+Concept	Description
+Capturing Phase	window → Target (use capture: true).
+Target Phase	Event reaches the target element.
+Bubbling Phase	Target → window (default).
+stopPropagation()	Stops further event travel.
+stopImmediatePropagation()	Stops all remaining listeners.
+Event Delegation	Listen on parent, check e.target.
+Best Practices
+Prefer bubbling unless you need early interception.
+
+Use event delegation for dynamic elements.
+
+Avoid excessive stopPropagation() (can break expected behavior).
+
+Clean up listeners with removeEventListener.
+
+Understanding propagation helps you control event flow and write efficient, scalable event handlers. 🚀
+
+## jis jis pe event laga hoga wo execute hota jaega in any phase ( bubbing or capturing )
+
+# Lession 26 ( Events continues ( event delegation))
+
+-> Event delegation is a powerful pattern in JavaScript where instead of attaching event listeners to individual child elements, you attach a single listener to a parent element and let events "bubble up" from the children. This leverages event propagation (bubbling) to handle events efficiently.
+
+-> Hamare example mein li mein to event laga ni hai , to kya hua bubble to karega na parent pe ( to parent wala run ho jaega)
+
+-> we also studied how to remove a child in this case
+
