@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Press</title>
+    <style>
+        body {
+            background-color: #212121;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>You Pressed</h1>
+    <h2>Hello <span style="display: none;">hidden</span> </h2>
+
+</body>
+<script>
+
+    // Task is to get the key pressed
+    document.addEventListener('keydown', (e) => {
+        const h2 = document.querySelector('h2')
+        h2.innerText = e.key
+    })
+</script>
+
+</html>

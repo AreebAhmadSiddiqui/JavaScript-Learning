@@ -889,3 +889,434 @@ Understanding propagation helps you control event flow and write efficient, scal
 
 -> we also studied how to remove a child in this case
 
+# Lession 27 ( Asynchronous Programming - Event Loop)
+
+-> By default JS is synchronous(executes line by line) and single threaded application
+-> Each op waits for the last one to complete before executing ( since thread is one hence thisss)
+
+Blocking vs Non Blocking Code
+
+-> Blocking - Block the flow of the program ( API req ( fetch() without callbacks or promises ), file reading)
+-> Non Blocking - Doesn't blobk execution
+
+Blocking: "Make this request and wait here until you get a response"
+
+Non-blocking: "Make this request and let me know when you have the response"
+
+SO make everything blocking then?
+
+-> NOOO, take an example that you want to register a user , so u input detail , store it in a db and inform user with a success message
+
+-> But here if you say lets inform user just like that even before the db is updated ( ho sakta hai db mein problem a jae lekin tum to success message bhej chucke ho )
+
+-> Isliye it depends on the use case
+
+## Web APIs
+
+-> So we have got a single call stack in ***JS engine***
+-> it will execute everything line by line
+-> but what if we want to stop execution for sometime or their is a task which takes some time
+-> so we then use Web APIs, some of them are
+
+a) setTimeOut()
+b) DOM API
+c) fetch()
+d) localstorage
+e) console
+
+***they are not the part of js but the environment in which JS runs  the above ones are for browser , similary some changes in node etc***
+
+Example
+
+``` javascript
+console.log("First")
+setTimeout(function cb1(){
+      console.log("Second")
+},2000)
+setTimeout(function cb2(){
+      console.log("Third")
+},1000)
+console.log("Fourth")
+```
+
+pehle gec stack mein jaega fir
+console.log("First") execute hoga (sync code). Phir dono setTimeout register honge:
+
+cb1 (2000ms ka)
+
+cb2 (1000ms ka)
+
+Phir console.log("Fourth") chalega (kyuki setTimeout non-blocking hai).
+
+aur gec ab stack se hat jaega
+
+Ab Web API mein:
+
+cb2 (1000ms wala) pehle complete hoga aur ***callback queue or task queue*** mein jayega.
+
+cb1 (2000ms wala) baad mein complete hoke queue mein jayega.
+
+***Event loop check karega ki call stack khali hai***, phir queue se FIFO order mein callbacks execute honge:
+
+cb2 → "Third" print hoga
+
+cb1 → "Second" print hoga
+
+Final Output:
+
+First  
+Fourth  
+Third  
+Second  
+
+
+So , I think sare questions answer ho gae honge Ni hote hai to again watch the lecture also
+
+TO visualize go here (http://latentflip.com/loupe)
+
+
+##### So QnA jo mujhe ae dimag mein
+
+-> Kya event loop call stack khali hone ke baad add karega ? Haan
+-> what if code poora execute ni ho paya aur queue mein banda a agay ( lets setTimout 2 s ka tha aur code exe 10s ) to ab kya? kuch ni same cheez wo tab tk queue se bahar ni aega jab tk code poora execute ni ho jata
+
+##### Example for event listener
+
+-> usmein bhi same wo register hoke rakha rahega jab click hoga to queue mein a jega  ( 10 baar click kara to?? 10 baar aega)
+-> lekin ismein jo event ka callback hai web api environment mein pada rah jaega hamesha ke liye isliye we tend to remove event listeners
+
+##### One example for fetch
+
+console.log('first')
+
+setTimeout(function cbT(){
+  console.log('CB setTimeOut')
+},5000);
+
+fetch(url)
+.then(function cbF(){
+  console.log("CB Netflix")
+})
+// millions line of code
+console.log("End")
+
+
+-> to ismein promises aur MutationObserver karke kuch hota hai inke liye ***microtask queue*** banti hai
+-> Event loop pehel ismein check karta hai ki koi task to ni aya agar hota hai to pehle ye execute hoga 
+-> Fir call back wali
+
+-> flow Event loops exectues all the task in microtask queue and then check for call back queue
+
+Example mein  ( man lo url se respone bahut hi kam second mein a agya micro mein to kya wo execute ho jaega ya fir millions of line execute hone ka wait karega ?? wait karega )
+
+first
+End
+CB Netfl 
+CB setT
+
+
+One Problem
+
+-> agar microtask ko doosre microtask ko call kare aur karta hi jae tab?? bechare call back ka to number hi ni aega ?? ***Sahi BAAT***
+
+-> This is what we call as **Starvation** of a task in Callback queue
+
+![Event Loop Chai aur Code](image-1.png)
+![Event Loop Namaste JS](image-2.png)
+
+# Lession 28 ( Async Programming - async functions)
+
+-> setTimeout() for once , setInterval for repeating
+-> clearTimeout(reference of a setTime) for removing it ( But haan uske time limit expire h jaega tb koi faayda ni hai remove karne ka)
+
+```javascript
+// delay by default is 0 for setTimeout
+setTimeout(callback, delayInMs,params1,params2,....); // these params are call back functions paramas
+
+// Output (after 2 sec): "Hello, Rahul! You are 25 years old."
+setTimeout(
+  (name, age) => console.log(`Hello, ${name}! You are ${age} years old.`), 
+  2000, 
+  "Rahul", 
+  25
+);
+
+
+setInterval(callback, interval,params1,params2,....); // these params are call back functions paramas
+let count = 0;
+setInterval(
+  (msg, num) => console.log(`${msg} ${num}`), 
+  1000, 
+  "Count:", 
+  ++count
+);
+// Output (every 1 sec): "Count: 1", "Count: 2", ...
+
+```
+
+->*Remember to clear setInterval everytime ur work is done*
+
+
+
+# Lession 29 ( APIs and V8 Engine)
+
+-> We used to have XMLHttpRequest
+
+
+# Lession 30 ( Promises )
+
+```javascript
+
+Promises in JavaScript - Detailed Explanation
+A Promise in JavaScript represents the eventual completion (or failure) of an asynchronous operation and its resulting value. It is a way to handle async operations more elegantly than callbacks.
+
+1. Promise States
+A Promise can be in one of these states:
+
+Pending – Initial state (neither fulfilled nor rejected).
+
+Fulfilled – Operation completed successfully (.then() runs).
+
+Rejected – Operation failed (.catch() runs).
+
+text
+Pending → Fulfilled (Resolved)  
+Pending → Rejected (Error)
+2. Creating a Promise
+Syntax
+javascript
+const myPromise = new Promise((resolve, reject) => {
+  // Async operation (e.g., API call, setTimeout)
+  if (success) {
+    resolve("Success Data"); // Promise fulfilled
+  } else {
+    reject("Error Message"); // Promise rejected
+  }
+});
+Example (Simulating API Call)
+javascript
+const fetchData = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const success = true; // Simulate success/failure
+    if (success) {
+      resolve({ id: 1, name: "John Doe" }); // Success
+    } else {
+      reject("Failed to fetch data!"); // Error
+    }
+  }, 2000);
+});
+3. Consuming Promises (.then(), .catch(), .finally())
+.then() – Success Handler
+javascript
+fetchData
+  .then((data) => {
+    console.log("Data received:", data);
+  });
+.catch() – Error Handler
+javascript
+fetchData
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+.finally() – Runs Always
+javascript
+fetchData
+  .then(data => console.log(data))
+  .catch(err => console.error(err))
+  .finally(() => console.log("Request completed!"));
+4. Chaining Promises
+Promises can be chained to avoid "callback hell":
+
+javascript
+fetchData
+  .then((user) => {
+    console.log("User:", user);
+    return fetchUserPosts(user.id); // Return another Promise
+  })
+  .then((posts) => {
+    console.log("Posts:", posts);
+  })
+  .catch((err) => {
+    console.error("Error in chain:", err);
+  });
+5. Promise Static Methods
+Promise.resolve()
+Creates an already resolved Promise:
+
+javascript
+Promise.resolve("Hello").then((val) => console.log(val)); // "Hello"
+Promise.reject()
+Creates an already rejected Promise:
+
+javascript
+Promise.reject("Error!").catch((err) => console.log(err)); // "Error!"
+Promise.all()
+Waits for all Promises to resolve (or any to reject):
+
+javascript
+const p1 = Promise.resolve("Task 1");
+const p2 = new Promise((resolve) => setTimeout(resolve, 1000, "Task 2"));
+
+Promise.all([p1, p2])
+  .then((results) => console.log(results)) // ["Task 1", "Task 2"]
+  .catch((err) => console.error(err));
+Promise.race()
+Returns the first settled Promise (resolved/rejected):
+
+javascript
+const p1 = new Promise((resolve) => setTimeout(resolve, 500, "Fast"));
+const p2 = new Promise((resolve) => setTimeout(resolve, 1000, "Slow"));
+
+Promise.race([p1, p2])
+  .then((result) => console.log(result)); // "Fast" (wins the race)
+Promise.allSettled()
+Waits for all Promises to settle (success/failure):
+
+javascript
+Promise.allSettled([p1, p2])
+  .then((results) => console.log(results));
+// Output:
+// [
+//   { status: "fulfilled", value: "Task 1" },
+//   { status: "rejected", reason: "Error!" }
+// ]
+6. Async/Await (Syntactic Sugar for Promises)
+async Functions
+Always return a Promise.
+
+Use await to pause execution until Promise settles.
+
+Example
+javascript
+async function fetchUser() {
+  try {
+    const user = await fetchData; // Waits for fetchData to resolve
+    console.log("User:", user);
+  } catch (err) {
+    console.error("Error:", err);
+  } finally {
+    console.log("Done!");
+  }
+}
+
+fetchUser();
+7. Common Promise Mistakes
+Forgetting .catch() → Unhandled rejections crash apps.
+
+Not returning in .then() → Breaks chaining.
+
+Mixing callbacks & Promises → Leads to messy code.
+
+8. Real-World Use Cases
+API Requests (fetch, Axios)
+
+File Reading (fs.readFile in Node.js)
+
+Timers (setTimeout wrapped in Promises)
+
+Database Queries (Mongoose, Sequelize)
+
+Summary
+Concept	Usage
+new Promise()	Creates a Promise
+.then()	Handles success
+.catch()	Handles errors
+.finally()	Runs always
+Promise.all()	Waits for all Promises
+Promise.race()	First settled Promise wins
+async/await	Cleaner Promise handling
+Promises make async code manageable and avoid callback hell! 🔥🚀
+
+
+```
+
+#### Some interesting codes
+
+```javascript
+
+new Promise(function (resolve,reject){
+    setTimeout(()=>{
+        console.log('Async task 2 is complete');
+        resolve()
+    },10)
+}).then(function(){
+    console.log('Promise 2 consumed');
+})
+    
+
+async function getDetails(){
+    try {
+        const response= await fetch('https://jsonplaceholder.typicode.com/users')
+        const data=await response.json()
+        
+        console.log(data);
+        console.log('----------------------')
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+getDetails()
+
+
+// For the above code only
+
+
+// Pehle wala promise pehle output hoga obvisouly because of event loop concept
+// lekin usko agar 2-3 sec kar do ho sakta hai ki pehle api wala output ho jae
+
+// .then wale sabhi function microtask queue mein jaenge , ye jo setTimeout wala hai wo callback queue mein hi jaega aur jab wo run hoga tb .then wala jo promise hai 'Promise 2 consumed' ye run hoga microtask queue se  
+
+
+// lekin agar tum is tareeqe se samjho ki wo promise ke andar kar diya hai to ( promis1 promis2 ho gaya jo pehle ho jaega wo pehle run hoga ) -> is analogy se yaad kar sakte ho but its not correct , correct upar wala hai
+
+```
+
+#### ek aur cheez chahe status code koi bhi ae wo jata resolve mein hi hai
+
+```javascript
+// fetch rejects only on network failures ( browser request hi na kar paya hai) or cors error, not HTTP errors (400/500).
+
+// 2. Kab Reject Hota Hai?
+// Only for Network Errors:
+
+// Internet offline
+
+// Invalid URL (CORS issue)
+
+Success (200-299):
+
+javascript
+fetch(url) // 200 OK
+  .then(response => {
+    console.log(response.ok); // true
+    console.log(response.status); // 200
+  });
+
+
+❌ Error (400/500):
+
+javascript
+fetch(invalidUrl) // 404 Not Found
+  .then(response => {
+    console.log(response.ok); // false (but still resolved!)
+    console.log(response.status); // 404
+  })
+  .catch(error => {
+    // Ye CHALEGA HI NAHI (unless network failure)
+  });
+
+4. Key Points
+fetch rejects only on network failures, not HTTP errors (400/500).
+
+Manual check karna zaroori hai:
+
+response.ok (true for 200-299)
+
+response.status (actual status code)
+
+axios different hai: Ye automatically reject karta hai 400/500 pe.
+
+
+```
+

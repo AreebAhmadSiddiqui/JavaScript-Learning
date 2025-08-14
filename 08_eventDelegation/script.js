@@ -47,3 +47,5 @@ parent.addEventListener('click',(e)=>{
     let parentOfThisTag=e.target.parentNode
     parentOfThisTag.removeChild(e.target)
 })
+
+
