@@ -1,3 +1,5 @@
+# Learn the most Important Topics using why do we need this ( the problem ) and how does it fix this dont just give def and example 
+
 # Lession 1
 
 -> NodeJS is an environment used to run the JS files ( you can also use Deno )
@@ -1320,3 +1322,268 @@ axios different hai: Ye automatically reject karta hai 400/500 pe.
 
 ```
 
+# Lession 31 ( OOPS )
+
+### Does JS have classes? 
+
+Yes, JS has classes (introduced in ES6, 2015), but they are **syntactic sugar** over JavaScript’s **prototype-based inheritance**.
+
+Basically JS is prototype-based language , but to make it easier for the developers coming from the different types of OOPs languages this was introduced
+
+### What is OOPs then?
+
+*OOP (Object-Oriented Programming) is a programming paradigm that organizes software design around objects rather than functions and logic.*
+
+### What are objects?
+
+Objects are the fundamental building blocks of JavaScript. They are unordered collections of key-value pairs (properties) where:
+
+***Keys are strings (or Symbols)***
+
+Values can be any data type (primitives, functions, other objects)
+
+
+### What are constructor functions?
+
+```javascript
+
+Constructor functions are special functions used to create and initialize objects. They serve as blueprints for creating multiple objects of the same type.
+
+1. Basic Constructor Function
+
+Syntax
+
+function Person(name, age) {
+  this.name = name;  // 'this' refers to the new object
+  this.age = age;
+  this.greet = function() {
+    console.log(`Hello, I'm ${this.name}`);
+  };
+}
+
+// Creating an instance
+const john = new Person("John", 30);
+john.greet(); // "Hello, I'm John"
+
+Key Points
+✔ Must be called with new (otherwise, this points to the global object)
+✔ Convention: Constructor names start with a capital letter (Person, Car, etc.)
+✔ Inside the constructor, this refers to the newly created object
+```
+
+###  What Happens When new is Used?
+
+
+A new empty object {} is created
+
+The constructor's this is set to this new object
+
+The constructor function executes (adding properties to this)
+
+The new object is returned automatically (unless the constructor returns a different object)
+
+
+
+Use ***instanceof*** to check if an object was created from a constructor
+
+
+-> Agar classes aur object na bhi ho fir bhi sirf objects ( sare pillars of OOPs follow karta hai )
+
+
+# Lession 32 ( Prototypes)
+
+-> JS is prototype-based language 
+
+
+# Lession 33 ( Call , bind and apply )
+
+-> Yeh teeno (call, bind, aur apply) functions ke context (this value) ko control karne ka kaam karte hain.
+-> Agar tum this ki value change karna chahte ho, toh in teeno methods ka use hota hai.
+
+-> Why Call? ( See the code america inr wala example )
+-> Call vs Bind Vs Apply
+
+🔥 Summary Table: call vs apply vs bind
+Method	Execution	Arguments Format	Returns
+call	Turant	(this, arg1, arg2)	Function result
+apply	Turant	(this, [arg1, arg2])	Function result
+bind	Baad Mein	(this, arg1, arg2)	New Function
+
+-> bind aram se baad mein jab bhi use karne ka man ho tb karo
+
+
+
+# Lession 34 ( Objects Advanced -> Interview Question Can you change the value of Math.PI if yes how? if not why? )
+
+
+
+## a) Jab bji kisi property ko tum set (obj_name.prop=val) ya get (obj_name.prop ) to sabse pehle wo dekhti hai ki getters and setters to ni hai
+
+## b) agar hai to wahan se set aur get karti hai 
+
+
+```javascript
+Object.getOwnPropertyDescriptor() - Ek Property Ki Jaankari
+Kaam: Object ki ek specific property ke baare mein complete details deta hai.
+
+Example:
+javascript
+const user = {
+  name: "Rahul",
+  age: 30
+};
+
+// Sirf 'name' property ka descriptor
+const nameDescriptor = Object.getOwnPropertyDescriptor(user, 'name');
+console.log(nameDescriptor);
+/* Output:
+{
+  value: "Rahul",
+  writable: true,
+  enumerable: true,
+  configurable: true
+}
+*/
+Key Points:
+✔ Ek baar mein sirf ek property check kar sakte hain
+✔ Property exist nahi karti toh undefined return karta hai
+
+2. Object.getOwnPropertyDescriptors() - Saari Properties Ki Jaankari
+Kaam: Object ki sabhi own properties ke descriptors ek saath deta hai.
+
+Example:
+javascript
+const user = {
+  name: "Rahul",
+  age: 30
+};
+
+// Poora object ke sab descriptors
+const allDescriptors = Object.getOwnPropertyDescriptors(user);
+console.log(allDescriptors);
+/* Output:
+{
+  name: {
+    value: "Rahul",
+    writable: true,
+    enumerable: true,
+    configurable: true
+  },
+  age: {
+    value: 30,
+    writable: true,
+    enumerable: true,
+    configurable: true
+  }
+}
+*/
+```
+
+**See Examples in Script**
+
+***Last ki kuch lines zarurr padhna***
+
+
+
+
+# Lession 35 ( Getters and Setters )
+
+**Why this create and issue ( stack overflow )** 
+
+```javascript
+
+class User{
+    constructor(email,password){
+        this.email=email
+        this.password=password
+    }
+    get email(){
+        return this.email
+    }
+    set email(val){
+        this.email=val
+    }
+}
+
+const userOne=new User('test@google.com',"123")
+console.log(userOne.email);
+
+
+// but this create an issue
+
+step by step explanation
+
+a) Jab bji kisi property ko tum set (obj_name.prop=val) ya get (obj_name.prop ) to sabse pehle wo dekhti hai ki getters and setters to ni hai
+
+b) agar hai to wahan se set aur get karti hai 
+
+c) Okk so, with this knowledge tum ismein dekho
+
+d) When you do new User("test@google.com", "123"):
+    1. Constructor runs this.email = email
+    2. JavaScript sees this as a property assignment, so it:
+    3. Checks if there's a set email() defined
+    4. Finds your setter and calls it with the value
+
+e) Inside your setter:
+
+    1.You wrote this.email = val
+    2. This is another property assignment
+    3.So JavaScript again checks for set email()
+    4. Calls the setter again... and again... ∞
+
+Similary this is for setter as well
+
+```
+
+**FIX**
+
+```javascript
+
+class User{
+    constructor(email,password){
+        this._email=email
+        this._password=password
+    }
+    get email(){
+        return this._email
+    }
+    set email(val){
+        this._email=val
+    }
+}
+
+const userOne=new User('test@google.com',"123")
+console.log(userOne.email);
+
+// Dekh bhai step by step
+
+What Happens in Constructor:
+
+1. Creates new object {}
+
+2. Runs constructor with provided values:
+   a. this._email = 'test@google.com' → Direct assignment to _email doesn't call setter
+   b. yahan pe bhi js dekhe ga ki _email naam se setter hai to paega ki ni hai so wont call the fuction
+   b. this._password = "123" → Direct assignment to _password doesn't call getter
+   c. yahan pe bhi js dekhe ga ki _email naam se getter hai to paega ki ni hai so wont call the fuction
+
+3. Ab jab tum set karoge manlo (obj.email='hello')
+    a. JS dekhega ki koi setter hai email naam se
+    b. Haan hai to kya karo _email mein "hello" dal do
+    c. similarly for get
+
+Key note:
+
+// Ismein loop mein fase hi ni
+
+```
+
+*ES2022 wala bhi dekh lena*
+
+Benefits Over Old Pattern:
+Old Way (_email)	ES2022 Way (#email)
+Convention-based privacy	Real privacy
+Still accessible outside class	Truly inaccessible
+Could be accidentally modified	Fully controlled access
+No runtime enforcement	Enforced by JavaScript engine
