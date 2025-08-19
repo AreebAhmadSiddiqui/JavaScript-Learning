@@ -1587,3 +1587,46 @@ Convention-based privacy	Real privacy
 Still accessible outside class	Truly inaccessible
 Could be accidentally modified	Fully controlled access
 No runtime enforcement	Enforced by JavaScript engine
+
+# Lession 36 ( Closures and Lexical Scoping )
+
+-> 1. Lexical (Static) Scoping
+This is how JavaScript and most modern languages (C, C++, Java, Python, etc.) work.
+
+Rule: A variable's scope is defined by its location within the code block (its lexical environment). You can look at the code structure (the functions, blocks, modules) and know exactly what variables are available in any given spot
+
+**"Lexical scope is the local memory and the reference to the lexical scope of its parent."**
+
+When the engine needs to find a variable, it follows this chain:
+
+Look in the local memory.
+
+If not found, follow the reference to the parent's scope and look there.
+
+Keep going up the chain until the variable is found or until you hit the global scope. If it's not in the global scope, you get a ReferenceError.
+
+And this process is called ***scope chain***
+
+![alt text](image-3.png)
+
+**Closures**
+
+***-> Closures are just functions bundled together along with its lexical scope***
+
+
+```javascript
+function makeFunc() {
+  const name = "Mozilla";
+  function displayName() {
+    console.log(name);
+  }
+  return displayName;
+}
+
+const myFunc = makeFunc();
+myFunc();
+
+
+```
+*** In this ham ye soch sakte hai ki function ka execution context hat gaya to wo function bhi chala jaega wahan se ***
+*** Sahi hai lekin ja tum return karte ho to sirf function return ni hota apne saath apna lexical scope bhi return karta hai ***
