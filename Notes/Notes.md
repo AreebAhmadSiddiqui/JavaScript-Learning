@@ -1390,9 +1390,92 @@ Use ***instanceof*** to check if an object was created from a constructor
 -> Agar classes aur object na bhi ho fir bhi sirf objects ( sare pillars of OOPs follow karta hai )
 
 
-# Lession 32 ( Prototypes)
+# Lession 32 ( Prototypes) ( Ye thora advance level ka lekin assan hai)
+
+-> prototypes are just a hidden object that gets added to object ( arra, fun,string,obj,...)
+
+![proto-chain](image-5.png)
+
+-> Diff between __pro__ and prototype
+ kisi bhi object ko --proto-- user karte ho aur parent class mein prototype
+
+-> obj.__proto__ === Object.prototype ( obj.can be array,string etc)
 
 -> JS is prototype-based language 
+-> JS haar ni manti hai agar use koi cheez ni milti hai to wo upar jati rahti hai ( child -> parent -> grandParent -> ... -> null)
+-> JS main laghbhag sab kuch hi object hi hai ( Objects ki har cheez accessible hai bachon( arrya, string etc) ko wo use kare na kare unki marzi)
+-> Hamne dekhi ki const arr=[1,2,3]   ( browser mein mein [[Prototype]] - Array(0) arraa tha uske andar [[Prototype]] Object a rha tha) -> ye Object ke baad NULL ho jaega
+-> **Function function bhi hai object bhi hai**
+-> ![prototype parent](image-4.png)
+
+-> Prototype chaining -> pehle apne object mein check karega fir upar upar jata rahega jabtak wo property mil na jae ya fir null na mil jae ( example code mein object ko areeb function de diya to sabne access kar paya)
+
+```javascript
+What are Prototypes?
+In JavaScript, every object has an internal property called [[Prototype]] (accessible via __proto__ in most browsers or through Object.getPrototypeOf()). This property points to another object, forming a prototype chain.
+
+
+The Prototype Chain
+
+When you access a property on an object, JavaScript first looks for it on the object itself. If not found, it traverses up the prototype chain:
+
+```
+
+# Lession 34 ( Classes and Objects )
+
+-> ES6 mein introduce hua tha
+
+***JavaScript classes, introduced in ES6 (ES2015), provide a much cleaner and more familiar syntax for creating objects and dealing with inheritance. However, it's crucial to understand that classes in JavaScript are primarily syntactic sugar over JavaScript's existing prototype-based inheritance.***
+
+-> Basic Classes,Inheritence and Static Props
+
+-> Static keyword
+
+```javascript
+The static keyword is used to define properties and methods that belong to the class itself, rather than to instances of the class. Static members are called on the class, not on instances.
+
+Basic Syntax
+javascript
+class MyClass {
+  // Static method
+  static staticMethod() {
+    return 'Called on the class itself';
+  }
+  
+  // Static property
+  static staticProperty = 'I belong to the class';
+  
+  // Instance method (normal method)
+  instanceMethod() {
+    return 'Called on an instance';
+  }
+}
+
+// Using static members
+console.log(MyClass.staticMethod()); // "Called on the class itself"
+console.log(MyClass.staticProperty); // "I belong to the class"
+
+// Using instance members
+const obj = new MyClass();
+console.log(obj.instanceMethod()); // "Called on an instance"
+
+// This will NOT work:
+// obj.staticMethod(); // TypeError: obj.staticMethod is not a function
+What static Actually Does
+Under the hood, static adds properties/methods directly to the constructor function:
+
+javascript
+class MathUtils {
+  static PI = 3.14159;
+  static square(x) { return x * x; }
+}
+
+// Equivalent to:
+function MathUtils() {}
+MathUtils.PI = 3.14159;
+MathUtils.square = function(x) { return x * x; };
+```
+
 
 
 # Lession 33 ( Call , bind and apply )
