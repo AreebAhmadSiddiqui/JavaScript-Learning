@@ -926,6 +926,9 @@ c) fetch()
 d) localstorage
 e) console
 
+
+random note -> setTimeOut(cb,0) tab use kar sakte ho jab tum kisi cheez ko chaho ki wo sabse end mein load ho -> not that important wali cheez
+
 ***they are not the part of js but the environment in which JS runs  the above ones are for browser , similary some changes in node etc***
 
 Example
@@ -1713,3 +1716,281 @@ myFunc();
 ```
 *** In this ham ye soch sakte hai ki function ka execution context hat gaya to wo function bhi chala jaega wahan se ***
 *** Sahi hai lekin ja tum return karte ho to sirf function return ni hota apne saath apna lexical scope bhi return karta hai ***
+
+
+# Lession 37 ( Extras )
+
+### EC and Call Stack
+
+-> **Everything is JS happens inside an Execution Context** 
+
+-> Each EC has got two blocks
+
+Memory Component ( Variable Environment) -> stores variables and functions as key value pair
+Code Component ( Thread of Ececution ) -> runs each code line by line
+
+*JS is synchronous single-threaded language*
+
+Call stack stores the order of execution of the execution contexts
+
+when we run the JS program EC context is created . EC has two sections one is memory and the other is Code . JS first scans the program and store all the variables and functions as key value pair. 
+Variables: Stored with value undefined (in case of var) or uninitialized (in case of let/const) get undefined and functions the entire definition . After that JS executes everything line by line in code compoenent storing the variables values and creating a new EC for each function and putting them in call stack ..
+
+
+### Hoisting and let vs var vs const
+
+Hoisting is a JavaScript behavior where variable and function declarations are moved to the top of their containing scope during the compilation phase, before code execution.
+
+**Let and const declarations are hoisted**
+
+The ***Temporal Dead Zone (TDZ)*** is the period between when a variable is hoisted and when it is initialized.
+
+var can be accessed by window.var_variable
+let and const also you can access but it will show undefined
+
+let and const are not attached to the window object they are assigned a separate space ( often called the "script" scope. )
+
+
+var a=10;
+let b=30;
+const c=20;
+
+window.a  -> 10
+window.b -> undefined
+window.c -> undefined
+
+Syntax Error vs Reference Error vs Type error
+
+Syntax Error 
+redeclration let        
+only initializing const ( sirf var likhna)
+
+Reference error
+variable not found in the scope
+
+Type Error
+Const ko redeclare karna ( value dalna )
+
+### Shortest JS Program
+
+index.js
+
+A blank file
+
+### Undefined vs not defined
+
+-> variable is there but currently it doesn't have a value ( undefined)
+-> variable itself is not there
+
+
+### Block, scope and Shadowing
+
+
+Scope
+Scope determines the accessibility/visibility of variables. It defines where variables can be accessed.
+
+Block
+A block is a section of code enclosed in curly braces {}. It creates a new block scope for let and const variables.
+
+
+Anything inside {} is a block
+It is used to combine multiple statements to single statemnt
+
+If expects only one statement but we can write 1000 statements inside {} , it will combine them into one
+if(){
+
+}
+
+#### Shadowing
+
+```javascript
+ariable shadowing occurs when a variable declared within a certain scope has the same name as a variable declared in an outer scope. The inner variable "shadows" the outer variable, making the outer variable inaccessible within the inner scope.
+
+Simple Example:
+javascript
+// Global variable
+let message = "Hello from global scope";
+
+function demoShadowing() {
+    // This variable shadows the global 'message'
+    let message = "Hello from function scope";
+    console.log(message); // Output: "Hello from function scope"
+    
+    if (true) {
+        // This variable shadows both outer variables
+        let message = "Hello from block scope";
+        console.log(message); // Output: "Hello from block scope"
+    }
+    
+    console.log(message); // Output: "Hello from function scope"
+}
+
+demoShadowing();
+console.log(message); // Output: "Hello from global scope"
+Illegal Shadowing Example:
+javascript
+let score = 100;
+
+function illegalShadowing() {
+    // This will cause an error - we can't shadow 'let' with 'var'
+    // var score = 200; // SyntaxError: Identifier 'score' has already been declared
+    
+    // But this is allowed - we're using the same declaration type
+    let score = 200; 
+    console.log(score); // Output: 200
+}
+
+illegalShadowing();
+Key Points About Shadowing:
+Same Name, Different Scopes: Shadowing requires the same variable name in different scopes
+
+Inner Hides Outer: The inner variable takes precedence over the outer variable
+
+Declaration Type Matters: You can't shadow a let variable with a var in the same scope
+
+Block Scope vs Function Scope: let and const are block-scoped, while var is function-scoped
+```
+
+So we have got three Objects
+
+Block -> block ke andar wale variables yahan ate hai ( let and const only not var)
+Script -> let aur const yahan ate hai
+Global -> ye to pata hi hai
+
+
+#### First class functions ( different functions )
+
+Function Statement,Func expression,func declaration,anonymous function,Named function expression,Difference between Parameters and Arguments,First class functions/first class citizens,Arror functions
+
+
+What are first class functions
+
+A function which can be used as a varibale is known as fcf ( in JS all functions are like that)
+
+When functions in a programming language are treated like any other variable then that programming language is known to have first-class functions. In javascript, the functions are known as the first-class citizens, which means functions can do what any other variables can. First-class functions javascript get this ability by treating the functions as an object.
+
+As functions are treated like a variable, we can pass them as a parameter to the other function and return the function from another function just like any other variable. Because functions are treated as variables we can store them in any other variable, objects, and in an array. This simply means first-class functions in javascript are simply like values or like any other objects in the code.
+
+
+### Higher Order Functions
+
+Functions that takes function as a params or return it
+
+### Callback Hell
+
+-> callbakc inside one cb inside anothet cb
+-> Inversion of control is also the issue here
+
+### Promise
+
+### Async Await
+
+-> async await is just a syntactic sugar (over native promise method ) ( peeche .then .then wala scene peeche chal rha hoga)
+-> Async function **always** returns a **promise**
+-> Either you return a promise or even if you don't return it ( it will automatically wraps it into a promise)
+-> Async/Await are used to handle promises
+
+-> Await can only be used inside an async function
+
+
+-> Await suspends the execution till the promise is resolved
+
+```javascript
+Let me break down what happens in your code step by step:
+
+javascript
+const p1 = new Promise(function(resolve, reject) {
+    setTimeout(function() {
+        resolve("Promised Resolved Value 1"); // Fixed the string to match p1
+    }, 20000); // 20 seconds
+});
+
+const p2 = new Promise(function(resolve, reject) {
+    setTimeout(function() {
+        resolve("Promised Resolved Value 2");
+    }, 15000); // 15 seconds
+});
+
+async function handleFunc2() {
+    const data1 = await p1;
+    console.log(data1);
+    console.log('Data 1');
+
+    const data2 = await p2;
+    console.log(data2);
+    console.log('Data 2');
+}
+
+handleFunc2();
+Step-by-Step Execution:
+Promise Creation (Time: 0s)
+
+p1 is created and its executor function runs immediately
+
+A timer is set for 20 seconds that will resolve p1 with "Promised Resolved Value 1"
+
+p2 is created and its executor function runs immediately
+
+A timer is set for 15 seconds that will resolve p2 with "Promised Resolved Value 2"
+
+Function Call (Time: 0s)
+
+handleFunc2() is called
+
+First Await (Time: 0s)
+
+Execution reaches const data1 = await p1
+
+Since p1 is still pending, the function pauses here
+
+Control returns to the event loop
+
+Timer Completion - p2 (Time: 15s)
+
+After 15 seconds, p2's timer completes
+
+p2 is resolved with "Promised Resolved Value 2"
+
+Timer Completion - p1 (Time: 20s)
+
+After 20 seconds, p1's timer completes
+
+p1 is resolved with "Promised Resolved Value 1"
+
+Function Resumes (Time: 20s)
+
+Since p1 is now resolved, handleFunc2() resumes execution
+
+data1 gets the value "Promised Resolved Value 1"
+
+console.log(data1) outputs: "Promised Resolved Value 1"
+
+console.log('Data 1') outputs: "Data 1"
+
+Second Await (Time: 20s)
+
+Execution reaches const data2 = await p2
+
+Since p2 was already resolved at 15 seconds, it immediately continues
+
+data2 gets the value "Promised Resolved Value 2"
+
+console.log(data2) outputs: "Promised Resolved Value 2"
+
+console.log('Data 2') outputs: "Data 2"
+
+Important Notes:
+Even though p2 resolves earlier (at 15s), the function doesn't continue until p1 resolves (at 20s)
+
+This is because await p1 must complete before moving to the next line
+
+The total execution time of handleFunc2() is approximately 20 seconds
+
+The console output will appear all at once at the 20-second mark:
+
+text
+"Promised Resolved Value 1"
+"Data 1"
+"Promised Resolved Value 2"
+"Data 2"
+```
