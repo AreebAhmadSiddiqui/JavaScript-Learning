@@ -9,7 +9,7 @@
 -> Mota Mota try to avoid using var ( scope mein antar ni janta wo so agar block ya functional scope mein same variable galti se change kar diya to har jagah change ho jaega)
 -> const ko declare karke initialise karna bhi zaruri hai
 -> let ko sirf declare kar sakte ( uski value undefined hogi)
--> Let ko tum ek normal variable maan sakte ho jaise baaki lang mein hota hai
+-> Let ko tum ek normal variable maan  sakte ho jaise baaki lang mein hota hai
 
 # Lession 5 ( Datatypes )
 
