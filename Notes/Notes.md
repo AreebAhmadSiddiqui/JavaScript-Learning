@@ -2,7 +2,7 @@
 
 # Lession 1
 
--> NodeJS is an environment used to run the JS files ( you can also use Deno )
+-> NodeJS is an environment  used to run the JS files ( you can also use Deno )
 
 # Lession 4 ( Variables )
 
